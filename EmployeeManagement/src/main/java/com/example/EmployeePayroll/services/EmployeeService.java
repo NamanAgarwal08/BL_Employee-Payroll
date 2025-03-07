@@ -17,22 +17,14 @@ public class EmployeeService {
 
 
     @Autowired
-    private final EmployeeRepository employeeRepository;
+    EmployeeRepository employeeRepository;
 
 
     @Autowired
-    private final ModelMapper modelMapper;
+    ModelMapper modelMapper;
 
-
-    private final List<EmployeeDTO> employeeList;
-
-
-    public EmployeeService(EmployeeRepository employeeRepository, ModelMapper modelMapper, List<EmployeeDTO> employeeList) {
-
-        this.employeeRepository = employeeRepository;
-        this.modelMapper = modelMapper;
-        this.employeeList = employeeList;
-    }
+    @Autowired
+    List<EmployeeDTO> employeeList;
 
 
     public EmployeeDTO get(Long id){

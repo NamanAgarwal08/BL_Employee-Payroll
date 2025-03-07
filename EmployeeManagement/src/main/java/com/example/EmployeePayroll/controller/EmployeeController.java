@@ -2,6 +2,7 @@ package com.example.EmployeePayroll.controller;
 
 import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,13 +11,8 @@ import java.util.List;
 @RequestMapping("/employeepayrollservice")
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-
-        this.employeeService = employeeService;
-    }
-
+    @Autowired
+    EmployeeService employeeService;
 
     @GetMapping("/get/{id}")
     public EmployeeDTO get(@PathVariable Long id){
