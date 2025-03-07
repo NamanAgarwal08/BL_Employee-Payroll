@@ -4,39 +4,39 @@ import com.example.EmployeePayroll.controller.EmployeeController;
 import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.entities.EmployeeEntity;
 import com.example.EmployeePayroll.repositories.EmployeeRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
 
-    EmployeeRepository employeeRepository;
+    @Autowired
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    @Autowired
+    private final ModelMapper modelMapper;
+
+    public EmployeeService(EmployeeRepository employeeRepository, ModelMapper modelMapper) {
+
         this.employeeRepository = employeeRepository;
+        this.modelMapper = modelMapper;
     }
 
     public EmployeeDTO get(Long id){
 
         EmployeeEntity empFound = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find Employee with given id"));
 
-        EmployeeDTO empDto = new EmployeeDTO(empFound.getName(), empFound.getSalary());
-        empDto.setId(empFound.getId());
-
-        return empDto;
+        return modelMapper.map(empFound, EmployeeDTO.class);
 
     }
 
     public EmployeeDTO create(EmployeeDTO newEmp){
 
-        EmployeeEntity newEntity = new EmployeeEntity(newEmp.getName(), newEmp.getSalary());
+        EmployeeEntity employeeEntity = modelMapper.map(newEmp, EmployeeEntity.class);
+        employeeRepository.save(employeeEntity);
 
-        employeeRepository.save(newEntity);
-
-        EmployeeDTO emp = new EmployeeDTO(newEntity.getName(), newEntity.getSalary());
-
-        emp.setId(newEntity.getId());
-
-        return emp;
+        return modelMapper.map(employeeEntity, EmployeeDTO.class);
     }
 
     public EmployeeDTO edit(EmployeeDTO emp, Long id){
@@ -50,24 +50,12 @@ public class EmployeeService {
         //saving in database
         employeeRepository.save(foundEmp);
 
-        //creating dto to return
-        EmployeeDTO employeeDTO = new EmployeeDTO(foundEmp.getName(), foundEmp.getSalary());
-        employeeDTO.setId(foundEmp.getId());
-
-
-        return employeeDTO;
-
+        return modelMapper.map(foundEmp, EmployeeDTO.class);
     }
 
     public String delete(Long id){
-
-        EmployeeEntity foundEmp = employeeRepository.findById(id).orElseThrow(()->new RuntimeException("No employee found for given id"));
-
-        employeeRepository.delete(foundEmp);
-
+        employeeRepository.deleteById(id);
         return "Employee Deleted";
-
     }
-
 
 }
