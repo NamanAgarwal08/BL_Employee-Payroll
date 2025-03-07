@@ -8,15 +8,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employeepayrollservice")
 public class EmployeeController {
 
-    EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
+
         this.employeeService = employeeService;
     }
 
-    //UC1 --> CRUD operations on employee database through REST API's
+
     @GetMapping("/get/{id}")
     public EmployeeDTO get(@PathVariable Long id){
+
         return employeeService.get(id);
     }
 
@@ -32,6 +34,7 @@ public class EmployeeController {
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Long id){
+
         return employeeService.delete(id);
     }
 
