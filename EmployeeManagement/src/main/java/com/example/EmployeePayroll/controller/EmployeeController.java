@@ -4,6 +4,8 @@ import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeeController {
@@ -27,7 +29,7 @@ public class EmployeeController {
         return employeeService.create(newEmp);
     }
 
-    @PutMapping("/edit/{id}")
+    @PatchMapping("/edit/{id}")
     public EmployeeDTO edit(@RequestBody EmployeeDTO emp, @PathVariable Long id){
         return employeeService.edit(emp, id);
     }
@@ -36,6 +38,13 @@ public class EmployeeController {
     public String delete(@PathVariable Long id){
 
         return employeeService.delete(id);
+    }
+
+
+    //for list
+    @GetMapping("/all")  // ✅ New API to Fetch All Employees
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
 }
