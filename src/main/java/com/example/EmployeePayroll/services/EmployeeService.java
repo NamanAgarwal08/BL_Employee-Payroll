@@ -98,8 +98,8 @@ public class EmployeeService {
     public String delete(Long id){
         log.warn("Deleting employee Corresponding to id->{} from database",id);
         //by Repo
-        employeeRepository.deleteById(id);
-
+        if(employeeRepository.existsById(id)) employeeRepository.deleteById(id);
+        else return "Employee not found with given id!";
 //        //By List
 //        //finding employee
 //        Optional<EmployeeDTO> empFound = employeeList.stream().filter(employee -> employee.getId().equals(id)).findFirst();
