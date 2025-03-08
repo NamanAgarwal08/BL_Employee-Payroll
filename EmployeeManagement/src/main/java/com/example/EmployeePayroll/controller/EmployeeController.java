@@ -2,10 +2,12 @@ package com.example.EmployeePayroll.controller;
 
 import com.example.EmployeePayroll.dto.EmployeeDTO;
 import com.example.EmployeePayroll.services.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/employeepayrollservice")
@@ -22,11 +24,13 @@ public class EmployeeController {
 
     @PostMapping("/create")
     public EmployeeDTO create(@RequestBody EmployeeDTO newEmp){
+
         return employeeService.create(newEmp);
     }
 
     @PatchMapping("/edit/{id}")
     public EmployeeDTO edit(@RequestBody EmployeeDTO emp, @PathVariable Long id){
+
         return employeeService.edit(emp, id);
     }
 
@@ -40,6 +44,7 @@ public class EmployeeController {
     //for list
     @GetMapping("/all")  // ✅ New API to Fetch All Employees
     public List<EmployeeDTO> getAllEmployees() {
+
         return employeeService.getAllEmployees();
     }
 
